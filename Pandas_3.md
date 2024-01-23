@@ -260,3 +260,55 @@ df2 = pl.DataFrame({'Score': [90, 85], 'Grade': ['A', 'B']})
 # Concatenate along columns
 result_polars = pl.concat([df1, df2], axis=1)
 ```
+
+### Row Number:
+
+#### Pandas:
+```python
+import pandas as pd
+
+# Create a DataFrame
+df = pd.DataFrame({'ID': [101, 102, 103, 104],
+                   'Value': [30, 25, 40, 35]})
+
+# Add a new column 'RowNumber' with row numbers
+df['RowNumber'] = range(1, len(df) + 1)
+```
+
+#### Polars:
+```python
+import polars as pl
+
+# Create a DataFrame
+df = pl.DataFrame({'ID': [101, 102, 103, 104],
+                   'Value': [30, 25, 40, 35]})
+
+# Add a new column 'RowNumber' with row numbers
+df = df.with_column(pl.col('RowNumber').fill_none().cumsum())
+```
+
+### Rank:
+
+#### Pandas:
+```python
+import pandas as pd
+
+# Create a DataFrame
+df = pd.DataFrame({'ID': [101, 102, 103, 104],
+                   'Value': [30, 25, 40, 35]})
+
+# Add a new column 'Rank' with rank values
+df['Rank'] = df['Value'].rank()
+```
+
+#### Polars:
+```python
+import polars as pl
+
+# Create a DataFrame
+df = pl.DataFrame({'ID': [101, 102, 103, 104],
+                   'Value': [30, 25, 40, 35]})
+
+# Add a new column 'Rank' with rank values
+df = df.with_column(pl.col('Value').rank().alias('Rank'))
+```
