@@ -152,4 +152,111 @@ Certainly! Here are 10 more examples of ETL (Extract, Transform, Load) operation
     df = df.with_column(pl.col('value').apply(pl.ln1p).alias('log_value'))
     ```
 
-These examples cover a variety of ETL operations using both Pandas and Polars in Python, showcasing their versatility in data manipulation and processing tasks.
+
+### Change Number Type:
+
+#### Pandas:
+```python
+# Change 'Price' column to float in Pandas
+df['Price'] = df['Price'].astype(float)
+```
+
+#### Polars:
+```python
+# Change 'Price' column to float in Polars
+df = df.with_column(pl.col('Price').cast(pl.float))
+```
+
+### Change String Type:
+
+#### Pandas:
+```python
+# Change 'Product_Name' column to string in Pandas
+df['Product_Name'] = df['Product_Name'].astype(str)
+```
+
+#### Polars:
+```python
+# Change 'Product_Name' column to string in Polars
+df = df.with_column(pl.col('Product_Name').cast(pl.utf8))
+```
+
+### Change Date Type:
+
+#### Pandas:
+```python
+# Change 'Date' column to datetime in Pandas
+df['Date'] = pd.to_datetime(df['Date'])
+```
+
+#### Polars:
+```python
+# Change 'Date' column to datetime in Polars
+df = df.with_column(pl.col('Date').cast(pl.Date))
+```
+
+### Change Day Type:
+
+#### Pandas:
+```python
+# Extract day of the week from 'Date' column in Pandas
+df['DayOfWeek'] = df['Date'].dt.day_name()
+```
+
+#### Polars:
+```python
+# Extract day of the week from 'Date' column in Polars
+df = df.with_column(pl.col('Date').day_name().alias('DayOfWeek'))
+```
+
+### Concatenating DataFrames along Rows:
+
+#### Pandas:
+```python
+import pandas as pd
+
+# Create two DataFrames
+df1 = pd.DataFrame({'ID': [1, 2], 'Name': ['Alice', 'Bob']})
+df2 = pd.DataFrame({'ID': [3, 4], 'Name': ['Charlie', 'David']})
+
+# Concatenate along rows
+result_pandas = pd.concat([df1, df2], ignore_index=True)
+```
+
+#### Polars:
+```python
+import polars as pl
+
+# Create two DataFrames
+df1 = pl.DataFrame({'ID': [1, 2], 'Name': ['Alice', 'Bob']})
+df2 = pl.DataFrame({'ID': [3, 4], 'Name': ['Charlie', 'David']})
+
+# Concatenate along rows
+result_polars = pl.concat([df1, df2], ignore_index=True)
+```
+
+### Concatenating DataFrames along Columns:
+
+#### Pandas:
+```python
+import pandas as pd
+
+# Create two DataFrames
+df1 = pd.DataFrame({'ID': [1, 2], 'Name': ['Alice', 'Bob']})
+df2 = pd.DataFrame({'Score': [90, 85], 'Grade': ['A', 'B']})
+
+# Concatenate along columns
+result_pandas = pd.concat([df1, df2], axis=1)
+```
+
+#### Polars:
+```python
+import polars as pl
+
+# Create two DataFrames
+df1 = pl.DataFrame({'ID': [1, 2], 'Name': ['Alice', 'Bob']})
+df2 = pl.DataFrame({'Score': [90, 85], 'Grade': ['A', 'B']})
+
+# Concatenate along columns
+result_polars = pl.concat([df1, df2], axis=1)
+```
