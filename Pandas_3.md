@@ -312,3 +312,55 @@ df = pl.DataFrame({'ID': [101, 102, 103, 104],
 # Add a new column 'Rank' with rank values
 df = df.with_column(pl.col('Value').rank().alias('Rank'))
 ```
+
+### Dense Rank:
+
+#### Pandas:
+```python
+import pandas as pd
+
+# Create a DataFrame
+df = pd.DataFrame({'ID': [101, 102, 103, 104],
+                   'Value': [30, 25, 40, 35]})
+
+# Add a new column 'DenseRank' with dense rank values
+df['DenseRank'] = df['Value'].rank(method='dense')
+```
+
+#### Polars:
+```python
+import polars as pl
+
+# Create a DataFrame
+df = pl.DataFrame({'ID': [101, 102, 103, 104],
+                   'Value': [30, 25, 40, 35]})
+
+# Add a new column 'DenseRank' with dense rank values
+df = df.with_column(pl.col('Value').rank(method='dense').alias('DenseRank'))
+```
+
+### Percent Rank:
+
+#### Pandas:
+```python
+import pandas as pd
+
+# Create a DataFrame
+df = pd.DataFrame({'ID': [101, 102, 103, 104],
+                   'Value': [30, 25, 40, 35]})
+
+# Add a new column 'PercentRank' with percent rank values
+df['PercentRank'] = df['Value'].rank(pct=True)
+```
+
+#### Polars:
+```python
+import polars as pl
+
+# Create a DataFrame
+df = pl.DataFrame({'ID': [101, 102, 103, 104],
+                   'Value': [30, 25, 40, 35]})
+
+# Add a new column 'PercentRank' with percent rank values
+df = df.with_column(pl.col('Value').rank(pct=True).alias('PercentRank'))
+```
