@@ -38,21 +38,58 @@ df_transformed = df_filtered.select(['name', 'sales']).alias({'sales': 'revenue'
 print(df_transformed)
 ```
 
-### 3. Load - Write to CSV:
+### 3. Group By and Aggregate:
 
 #### Pandas:
 ```python
-# Load: Write transformed data to CSV
-df_transformed.to_csv('transformed_data.csv', index=False)
+# Transform: Group by and aggregate
+df_grouped = df.groupby('category')['revenue'].sum().reset_index()
+print(df_grouped.head())
 ```
 
 #### Polars:
 ```python
-# Load: Write transformed data to CSV
-df_transformed.write_csv('transformed_data.csv')
+# Transform: Group by and aggregate
+df_grouped = df.groupby('category').agg(pl.col('revenue').sum().alias('total_revenue'))
+print(df_grouped)
+```
+### 4. Group By and Sort By:
+
+```python
+import pandas as pd
+
+# Sample DataFrame
+data = {'Category': ['A', 'B', 'A', 'B', 'A'],
+        'Value': [10, 20, 30, 15, 25]}
+df = pd.DataFrame(data)
+
+# Group by 'Category' and calculate sum
+grouped_df = df.groupby('Category')['Value'].sum().reset_index()
+
+# Sort by the sum of 'Value' in descending order
+sorted_df_pandas = grouped_df.sort_values(by='Value', ascending=False)
+
+print(sorted_df_pandas)
 ```
 
-### 4. Merge DataFrames:
+```python
+import polars as pl
+
+# Sample DataFrame
+data = {'Category': ['A', 'B', 'A', 'B', 'A'],
+        'Value': [10, 20, 30, 15, 25]}
+df = pl.DataFrame(data)
+
+# Group by 'Category' and calculate sum
+grouped_df = df.groupby('Category').agg(pl.col('Value').sum().alias('Sum'))
+
+# Sort by the sum of 'Value' in descending order
+sorted_df_polars = grouped_df.sort('Sum', reverse=True)
+
+print(sorted_df_polars)
+```
+
+### 5. Merge DataFrames:
 
 #### Pandas:
 ```python
@@ -70,23 +107,23 @@ df_merged = df_transformed.join(df_additional, on='id', how='inner')
 print(df_merged)
 ```
 
-### 5. Group By and Aggregate:
+
+### 6. Load - Write to CSV:
 
 #### Pandas:
 ```python
-# Transform: Group by and aggregate
-df_grouped = df.groupby('category')['revenue'].sum().reset_index()
-print(df_grouped.head())
+# Load: Write transformed data to CSV
+df_transformed.to_csv('transformed_data.csv', index=False)
 ```
 
 #### Polars:
 ```python
-# Transform: Group by and aggregate
-df_grouped = df.groupby('category').agg(pl.col('revenue').sum().alias('total_revenue'))
-print(df_grouped)
+# Load: Write transformed data to CSV
+df_transformed.write_csv('transformed_data.csv')
 ```
 
-### 6. Extract from Database:
+
+### 7. Extract from Database:
 
 #### Pandas:
 ```python
@@ -108,7 +145,7 @@ df = pl.read_sql('postgresql://user:password@localhost:5432/database', 'SELECT *
 print(df)
 ```
 
-### 7. Transform - Handle Missing Values:
+### 8. Transform - Handle Missing Values:
 
 #### Pandas:
 ```python
